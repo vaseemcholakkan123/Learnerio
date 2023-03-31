@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+{% include 'User-Navbar.html' %}    
+
+<section class="container">
+    </div>
+    <div class="row login-row">
+        <div class="col-12 col-md-8 col-lg-6 form-div">
+            <div class="col-10">
+                   
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Request Unblock</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Enter username</h4>
+                          <form action="/user/unblock/" method="post">
+                            {% csrf_token %}
+                            <input type="text" name="username" placeholder="Enter your username">
+                          
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-secondary bg-primary">Send Request</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                
+                
+                {% if form.errors %}
+                <div class="alert alert-danger p-2">
+                    {% for fname,errors in form.errors.items %}
+                        {% for err in errors %}
+                        <p>{{ err }} {% if err == 'User Blocked' %} <a data-bs-toggle="modal" data-bs-target="#exampleModal" style="float: right;" class="small">Request Unblock</a> {% endif %}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="offset-alert mb-2"></div>
+                {% endif %}
+                
+                <form method="post" class="container">
+                    {% csrf_token %}
+                    <p class="login-label"><img class="mb-2" src="{% static 'user.png' %}" alt="" width="40" height="40"> Username</p>
+                    {{ form.username }}
+                    <p class="login-label"><img class="mb-2" src="{% static 'secure.png' %}" alt="" width="40" height="40"> Password</p>
+                    {{ form.password }}
+                    <button class="btn-1 btn-90 col-12" type="submit">Login</button>
+                </form>
+                    
+                <p class="redirect_p pt-2">Don't Have an account , <a href="{% url 'create_account' %}">Create one Now</a></p>
+            </div>
+        </div>
+        <div class="col-md-6 image-div" ></div>
+    </div>
+
+</section>
+
+
+{% endblock child %}
+    

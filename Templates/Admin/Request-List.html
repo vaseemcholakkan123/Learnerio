@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+{% include 'Admin-Navbar.html' %}    
+
+<section class="container">
+
+    <section class="container admin-users-view view-section shadow">
+        <div class="d-flex header">
+            <h2 class="inline">Requests</h2>
+        </div>
+        <div class="row gy-3 d-flex center overflow-auto view-row">
+            
+            {% if Requests %}
+                {% for req in Requests %}
+                <div class="col-md-12 d-flex primary-view">
+                    
+                    {% if req.user.profile_pic %}
+                    <img src="{{ req.user.profile_pic.url }}" width="150" height="100" alt="" srcset="">
+                        {% else %}
+                        <img src="{% static 'user(1).png' %}" width="150" height="100" alt="" srcset="">
+                    
+                    {% endif %}
+                        
+                        
+                    <div class="ms-2">
+                        <h3>Requested to {{ req.description }}.</h3>
+                        <p>User : {{ req.user.username }}</p>
+                        {% if req.description != 'unblock' %}
+                            {% for tutor in req.user.tutor_set.all %}
+                            <p>Qualifications : {{ tutor.qualification }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="ms-auto me-2 d-flex btn-flex">
+                        
+                        {% if req.description == 'unblock' %}
+                            <a href="{% url 'unblock_user' req.id %}" class="btn btn-success">Unblock</a>
+                            {% else %}
+                            <a href="{% url 'approve_request' req.id %}" class="btn btn-success">Accept</a>
+                        {% endif %}
+                            
+                        <a href="{% url 'decline_request' req.id %}" class="btn btn-danger">Decline</a>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% else %}
+                
+                <div class="col-md-12 d-flex primary-view">
+                    
+                    <h3 class="ms-auto me-auto self-center">No Requests</h3>
+
+                </div>
+
+            {% endif %}
+                
+                
+        </div>
+
+    </section>
+
+</section>
+
+
+{% endblock child %}
+    

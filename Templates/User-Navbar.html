@@ -1,0 +1,115 @@
+ {% load static %}
+<nav class="navbar navbar-expand-md fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home' %}">Learner.io</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="nav-offset"></div>
+     
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        
+        <form class="d-flex cent ms-auto me-auto" method="post" action="/">
+          {% csrf_token %}
+            <div class="d-flex search me-2 ml-2">
+                <input name="query" class="nav-input" type="text" placeholder="Search Course">
+             </div>
+
+            <button type="submit" class="b-none">Search <i class="bi bi-search"></i></button>
+        </form>
+
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-lg-3">
+          {% if user.is_authenticated %}           
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="show d-none">Tutor Board</span>
+              <img src="{% static 'tutor.png' %}" width="30" height="30" alt="tutorpng" srcset="">
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% if not user.is_tutor  %}
+              {% if user.profile_pic %}
+              <li><a class="dropdown-item" href="{% url 'become_tutor' %}">Become a Tutor</a></li>
+              {% else %}
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#no_profile_modal">Become a Tutor</a></li>
+              {% endif %}
+
+              {% else %}
+              <li><a class="dropdown-item" href="{% url 'tutor_dashboard' %}">Tutor Panel</a></li>
+              {% endif %}
+              
+            </ul>
+            
+          </li>
+
+          {% endif %}
+
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'wishlist' %}"><p class="show d-none">My Wishlist</p> <img src="{% static 'wishlist.png' %}" width="30" height="30" alt="tutorpng" srcset=""></a>
+
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'cart' %}">
+              <span class="show d-none">My Cart</span>
+              <img src="{% static 'shopping-cart.png' %}" width="30" height="30" alt="tutorpng" srcset=""></a>
+          </li>
+
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="show d-none">My Profile</span>
+              
+              {% if user.profile_pic %}
+              <img class="rounded-circle" src="{{ user.profile_pic.url }}" width="30" height="30" alt="tutorpng" srcset="">
+                {% else %}
+              <img src="{% static 'user.png' %}" width="30" height="30" alt="tutorpng" srcset="">
+              {% endif %}
+                
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              
+              {% if user.is_authenticated %}
+              <li><a class="dropdown-item" href="{% url 'user_dashboard' %}">Dashboard</a></li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+              
+              {% if user.is_superuser %}
+              <li><a class="dropdown-item text-primary" href="{% url 'admin_panel' %}">Admin Panel</a></li>
+                
+              {% endif %}
+                
+              {% else %}
+              <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+
+              {% endif %}
+                
+            </ul>
+          </li>
+
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="modal" id="no_profile_modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Update Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>You did not completed your profile,complete it to continue!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a href="{% url 'edit_profile' user.id %}" class="btn-1-no-width">Update Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+

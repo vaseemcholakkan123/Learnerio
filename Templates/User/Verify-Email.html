@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+
+{% block child %}
+    {% include 'User-Navbar.html' %}
+
+    <div class="d-flex center align-items-center" style="height: 100vh;">
+        <div>
+            <h3>Waiting for verification,CLICK THE LINK SEND TO YOUR MAIL.</h3>
+ 
+            <h2>Didn't get the mail <a href="{% url 'request-new-link-from-email' %}">Send another one ?</a></h2>
+            
+            
+            {% if form %}
+            <form method="post" class="text-center mt-4">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn-1">Send Again</button>
+            </form>
+            {% endif %}
+                
+                
+        </div>
+    </div>    
+
+{% endblock child %}
+
+    

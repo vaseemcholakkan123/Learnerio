@@ -1,0 +1,15 @@
+ {% load static %}
+<nav class="navbar navbar-expand-md fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home' %}">Learner.io</a>
+  
+      <div class="ms-auto me-auto">
+        <a class="decor-none" href="{% url 'admin_panel' %}"><h2>Admin Panel</h2></a>
+      </div>
+      
+      {% if not form %}
+      <a href="{% url 'logout' %}" class="btn btn-danger me-3">Logout</a>
+      {% endif %}
+        
+    </div>
+  </nav>

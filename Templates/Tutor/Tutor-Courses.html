@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+    
+{% include 'User-Navbar.html' %}
+
+<section>
+
+    <section class="container admin-users-view view-section shadow">
+        <div class="d-flex header">
+            <h2 class="inline">Teaching Courses</h2>
+        </div>
+        <div class="row gy-3 d-flex center overflow-auto view-row">
+            
+            {% for course in courses %}
+            <div class="col-md-12 d-flex primary-view view2 course-card-flex-col auto-height">
+                
+                <div class="d-flex flex-dir-col">
+
+                <img class="image" src="{{ course.image.url }}" width="150" height="100" alt="" srcset="">
+
+                    
+                <div class="ms-2 small">
+                    <h3>{{ course.title }}</h3>
+                    {% for category in course.category.all %}
+                    <p>Category : {{ category }}</p>
+                    {% endfor %}
+                    <p class="text-small">Duration : {{ course.duration }} Months</p>
+                </div>
+                </div>
+
+                <div class="ms-auto me-2 d-flex btn-flex">
+                    <a href="{% url 'edit_course' course.id %}" class="btn-1">Edit Course</a>
+                    <form action="{% url 'delete_course' course.id %}" method="post">
+                        {% csrf_token %}
+                    <button type="submit" class="btn-1">Remove</button>
+                    </form>
+                </div>
+
+            </div>
+            {% endfor %}
+                
+        </div>
+
+    </section>
+
+</section>
+
+
+{% endblock child %}
+    

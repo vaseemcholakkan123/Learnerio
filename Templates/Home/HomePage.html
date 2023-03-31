@@ -1,0 +1,380 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filters %}
+{% block child %}
+
+  {% include 'User-Navbar.html' %}
+
+  <section class="home-section">
+
+    <section class="row me-0">
+
+      <div class="filter_notification_section col-4 col-md-2 bg-white shadow-orange">
+
+        <h3 class="pb-2 pt-3">Filter By</h3>
+
+        <div>
+          <input class="filter" id="price" value="price" name="filter" type="radio">
+          <label for="price">Price Low to high</label>
+        </div>
+
+        <div>
+          <input class="filter" value="rating" id="rating" name="filter"  type="radio">
+          <label for="rating">Rating</label>
+        </div>
+
+        <h3 class="pb-2 pt-3">Skills</h3>
+        
+        {% if engineering_checked %}
+          <p>true</p>
+        {% endif %}
+          
+        {% for category in categories %}
+        <div>
+          <input class="filter-cat" id="{{category.name}}" name="filter" value="{{ category.name }}" type="radio" data-category="{{category.name}}">
+          <label for="{{category.name}}">{{category.name}}</label>
+        </div>
+        {% endfor %}
+       
+
+        <h3 class="pb-2 pt-3">Level</h3>
+        <div>
+          <input class="filter-by-level" id="Beginner" name="filter" value="beginner" type="radio">
+          <label for="Beginner">Beginner</label>
+        </div>
+
+        <div>
+          <input class="filter-by-level" id="Intermediate" name="filter" value="intermediate" type="radio">
+          <label for="Intermediate">Intermediate</label>
+        </div>
+
+        <div>
+          <input class="filter-by-level" id="Advanced" name="filter" value="advanced" type="radio">
+          <label for="Advanced">Advanced</label>
+        </div>
+
+        <div>
+          <input class="filter-by-level" id="Mixed" value="mixed" name="filter" type="radio">
+          <label for="Mixed">Mixed</label>
+        </div>
+
+      </div>
+
+      <div class="col-8 col-md-10 w-90">
+
+        <div class="row course-row gy-4 mb-5 ms-3">
+            
+          
+          {% for course in courses %}
+          <div class="col-md-6 col-lg-4 flex-center" >
+            <div class="course-card shadow-orange bg-white" onclick="location.href='/course-details/{{ course.id }}'">
+              <div class="course-img">
+                <img src="{{ course.image.url }}" alt="">
+                <div class="onhover">
+                  <div class="p-3 bg-light shadow-brown">
+                    <h3>{{ course.title }}</h3>
+                    <p class="text-small">Updated {{ course.updated_date }}</p>
+                    <p class="mt-1 text-small">{{ course.level }} - {% if course.duration == 1%} 1 month {% else %} 1 to {{ course.duration }} month {% endif %}</p>
+                    <p class="mt-2 mb-1 text-description">{{ course.description }}</p>
+                      {% for learns in course.whats_learning|comma_filter %}
+                        {% if forloop.counter <= 4 %}
+                          <div class="d-flex">
+                            <img src="{% static 'check2.svg' %}" width="20" height="20" alt="">
+                            <p class="text-learns ms-2">{{ learns }}</p>
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                      
+                    <a href="{% url 'add_to_wishlist' course.id %}" class="wishlist_btn btn-1-no-width text-small"><b>+</b> Wishlist</a>
+                    <a href="{% url 'add_to_cart' course.id %}" class="cart_btn btn-1-no-width text-small">Add to Cart</a> 
+
+                  </div>
+                </div>
+              </div>
+
+                <div class="p-3 pb-3">
+                  <div>
+                    <h3 class="course-title">{{ course.title }}</h3>
+                    <p class="desc-course"><img src="{{ course.owner.user_id.profile_pic.url }}" class="rounded-circle me-1" width="40" height="40" alt="">  <b>{{ course.owner }}</b></p>
+                    <p><b class="skill-text pt-1">Category :</b> {% for category in course.category.all %} {{ category.name }} {% endfor %}</p>
+                  </div>
+      
+                  <div class="d-flex pt-2">
+                      <p class="text-small"><b>Price : </b>₹ {{ course.price }}</p>
+                      <p class="ms-auto text-small m-minus3" id="rating"></p> 
+                      
+                      <script>
+                        let rating = document.querySelector('#rating')
+                        
+                        for (let i = 0; i < 5; i++) {
+                            if(i < {{ course.review.rating }}){
+                                rating.insertAdjacentHTML('beforeend', '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gold" class="bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>')
+                            }else {
+                                rating.insertAdjacentHTML('beforeend', '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#cecece" class="bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>')
+                            }
+                        }
+                        
+                      </script>
+                </div>
+                <p class="text-small">Updated on : {{ course.updated_date }}</p>
+
+              </div>
+            </div>
+
+          </div>
+
+
+          
+          {% endfor %}
+          
+            
+        </div>
+
+      </div>
+
+
+    </section>
+
+  </section>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <script>
+
+    $(document).ready(function(){
+
+      let url = window.location.href.split('=')
+
+      if (url[1] != undefined){
+        
+        let element = url[1].includes('%20') ? url[1].replace('%20&%20',' & ') : url[1]
+        console.log(element);
+        document.getElementById(element).checked = true
+      }
+
+      $('.wishlist_btn').on('click',wishlist)
+
+    function wishlist(e){
+
+      e.preventDefault();
+      $.ajax({
+        type : 'GET',
+        url : $(this).attr('href'),
+      })
+
+    }
+
+    $('.cart_btn').on('click',cart)
+
+    function cart(e){
+
+      e.preventDefault();
+      $.ajax({
+        type : 'GET',
+        url : $(this).attr('href'),
+      })
+
+    }
+
+
+    $('.filter-cat').change(function() {
+        // Get the current filter values
+       
+
+        var category = $(this).val();
+
+        // Make an AJAX request to the get_courses view
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/filter',
+            data: {
+                'filter-by-category': category,
+            },
+            success: function(courses) {
+
+
+              var row = $('.course-row'); 
+              $('.course-row').empty();
+
+              $.each(courses, function(index, course) {
+                    var courseCard = $('<div>').addClass('col-md-6 col-lg-4 flex-center').html(
+                      '<div class="course-card shadow-orange bg-white"'+ 'onclick="location.href='+"'/course-details/"+ course.id + "'" + '" >' +
+                      '<div class="course-img">' +
+                      '<img src="'+'/media/' + course.course_img + '" alt="">' +
+                      '<div class="onhover">' +
+                      '<div class="p-3 bg-light shadow-brown">' +
+                      '<h3>' + course.name + '</h3>' +
+                      '<p class="text-small">Updated ' + course.updated_date + '</p>' +
+                      '<p class="mt-1 text-small">' + course.level + ' - ' +
+                      ((course.duration == 1) ? '1 month' : '1 to ' + course.duration + ' months') + '</p>' +
+                      '<p class="mt-2 mb-1 text-description">' + course.description + '</p>' +
+                      '<a href="/user/to-wishlist/'+ course.id +'" class="wishlist_btn btn-1-no-width text-small"><b>+</b> Wishlist</a>' +
+                      '<a href="/user/to-cart/'+ course.id +'" class="cart_btn btn-1-no-width text-small">Add to Cart</a>' +
+                      '</div>' +
+                      '</div>' +
+                      '</div>' +
+                      '<div class="p-3 pb-3">' +
+                      '<div>' +
+                      '<h3 class="course-title">' + course.name + '</h3>' +
+                      '<p class="desc-course"><img src="'+'/media/' + course.tutor_profile + '" class="rounded-circle me-1" width="40" height="40" alt=""><b>' + course.tutor + '</b></p>' +
+                      '<p><b class="skill-text pt-1">Category :</b> ' + course.category + '</p>' +
+                      '</div>' +
+                      '<div class="d-flex pt-2">' +
+                      '<p class="text-small"><b>Price : </b>₹ ' + course.price + '</p>' +
+                      '</div>' +
+                      '<p class="text-small">Updated on : ' + course.updated_date + '</p>' +
+                      '</div>' +
+                      '</div>'
+                    );
+                    row.append(courseCard);
+                  });
+
+
+            }
+        });
+    });
+
+
+    // filter price
+
+    $('.filter').change(function() {
+        // Get the current filter values
+       
+
+        var val = $(this).val();
+
+        // Make an AJAX request to the get_courses view
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/filter',
+            data: {
+                'filter-by': val,
+            },
+            success: function(courses) {
+
+
+              var row = $('.course-row'); 
+              $('.course-row').empty();
+
+              $.each(courses, function(index, course) {
+                    var courseCard = $('<div>').addClass('col-md-6 col-lg-4 flex-center').html(
+                      '<div class="course-card shadow-orange bg-white"'+ 'onclick="location.href='+"'/course-details/"+ course.id + "'" + '" >' +
+                      '<div class="course-img">' +
+                      '<img src="'+'/media/' + course.course_img + '" alt="">' +
+                      '<div class="onhover">' +
+                      '<div class="p-3 bg-light shadow-brown">' +
+                      '<h3>' + course.name + '</h3>' +
+                      '<p class="text-small">Updated ' + course.updated_date + '</p>' +
+                      '<p class="mt-1 text-small">' + course.level + ' - ' +
+                      ((course.duration == 1) ? '1 month' : '1 to ' + course.duration + ' months') + '</p>' +
+                      '<p class="mt-2 mb-1 text-description">' + course.description + '</p>' +
+                      '<a href="/user/to-wishlist/'+ course.id +'" class="wishlist_btn btn-1-no-width text-small"><b>+</b> Wishlist</a>' +
+                      '<a href="/user/to-cart/'+ course.id +'" class="cart_btn btn-1-no-width text-small">Add to Cart</a>' +
+                      '</div>' +
+                      '</div>' +
+                      '</div>' +
+                      '<div class="p-3 pb-3">' +
+                      '<div>' +
+                      '<h3 class="course-title">' + course.name + '</h3>' +
+                      '<p class="desc-course"><img src="'+'/media/' + course.tutor_profile + '" class="rounded-circle me-1" width="40" height="40" alt=""><b>' + course.tutor + '</b></p>' +
+                      '<p><b class="skill-text pt-1">Category :</b> ' + course.category + '</p>' +
+                      '</div>' +
+                      '<div class="d-flex pt-2">' +
+                      '<p class="text-small"><b>Price : </b>₹ ' + course.price + '</p>' +
+                      '<p class="ms-auto text-small m-minus3" id="rating"> text-cartminus3" id="r/p>' +
+                      '</div>' +
+                      '<p class="text-small">Updated on : ' + course.updated_date + '</p>' +
+                      '</div>' +
+                      '</div>'
+                    );
+                    row.append(courseCard);
+                  });
+
+
+            }
+        });
+    });
+
+
+
+    $('.filter-by-level').change(function() {
+        // Get the current filter values
+       
+
+        var val = $(this).val();
+
+        // Make an AJAX request to the get_courses view
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/filter',
+            data: {
+                'filter-by-level': val,
+            },
+            success: function(courses) {
+
+
+              var row = $('.course-row'); 
+              $('.course-row').empty();
+
+              $.each(courses, function(index, course) {
+                    var courseCard = $('<div>').addClass('col-md-6 col-lg-4 flex-center').html(
+                      '<div class="course-card shadow-orange bg-white"'+ 'onclick="location.href='+"'/course-details/"+ course.id + "'" + '" >' +
+                      '<div class="course-img">' +
+                      '<img src="'+'/media/' + course.course_img + '" alt="">' +
+                      '<div class="onhover">' +
+                      '<div class="p-3 bg-light shadow-brown">' +
+                      '<h3>' + course.name + '</h3>' +
+                      '<p class="text-small">Updated ' + course.updated_date + '</p>' +
+                      '<p class="mt-1 text-small">' + course.level + ' - ' +
+                      ((course.duration == 1) ? '1 month' : '1 to ' + course.duration + ' months') + '</p>' +
+                      '<p class="mt-2 mb-1 text-description">' + course.description + '</p>' +
+                      '<a href="/user/to-wishlist/'+ course.id +'" class="wishlist_btn btn-1-no-width text-small"><b>+</b> Wishlist</a>' +
+                      '<a href="/user/to-cart/'+ course.id +'" class="cart_btn btn-1-no-width text-small">Add to Cart</a>' +
+                      '</div>' +
+                      '</div>' +
+                      '</div>' +
+                      '<div class="p-3 pb-3">' +
+                      '<div>' +
+                      '<h3 class="course-title">' + course.name + '</h3>' +
+                      '<p class="desc-course"><img src="'+'/media/' + course.tutor_profile + '" class="rounded-circle me-1" width="40" height="40" alt=""><b>' + course.tutor + '</b></p>' +
+                      '<p><b class="skill-text pt-1">Category :</b> ' + course.category + '</p>' +
+                      '</div>' +
+                      '<div class="d-flex pt-2">' +
+                      '<p class="text-small"><b>Price : </b>₹ ' + course.price + '</p>' +
+                      '<p class="ms-auto text-small m-minus3" id="rating"> text-cartminus3" id="r/p>' +
+                      '</div>' +
+                      '<p class="text-small">Updated on : ' + course.updated_date + '</p>' +
+                      '</div>' +
+                      '</div>'
+                    );
+                    row.append(courseCard);
+                  });
+
+
+            }
+        });
+    });
+
+
+
+    })
+
+
+    
+
+
+
+
+
+  </script>
+    
+    
+    
+    
+  {% include 'Footer.html' %}
+
+{% endblock child %}
+    
+

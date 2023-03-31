@@ -1,0 +1,181 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block child %}
+{% include 'User-Navbar.html' %}
+
+   <section class="course-reading-section pb-5">
+
+    <section class="pt-5 mm-5">
+
+        <div class="row gx-0">
+            <div class="col-md-9">
+                <video src="{{ chapter.video.url }}" class="w-100" controls></video>
+                
+                <div class="w-100 shadow-udemy p-3 m-1">
+                    <h3>Chapter #{{ chapter.chapter_no }} : {{ chapter.title }}</h3>
+                </div>
+
+                <div class="w-100 shadow-udemy p-3 m-1 mt-4">
+                    <h3 class="mb-2">Description :<h3>
+                    <h4 class="ms-2">{{ chapter.description }}</h4>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="col-md-3 mt-1">
+                <div class="accordion m-2 mt-3" id="accordionExample">
+                    
+                    {% for chapters in chapter.course.course_chapters.all %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                          <button class="accordion-button collapsed text-small" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{ chapters.chapter_no }}" aria-expanded="false" aria-controls="collapseOne">
+                            #{{ chapters.chapter_no }} &nbsp; <b> : </b> &nbsp; {{ chapters.title }}
+                          </button>
+                        </h2>
+                        <div id="collapseOne{{ chapters.chapter_no }}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <div>
+                                <a href="{% url 'continue_reading' chapters.id %}" class="mt-1 mb-2"> Read Chapter</a>
+                                {% for read in is_read %}
+                                {% if read.chapter.id == chapters.id %}
+                                <div class="w-100 d-flex shadow-udemy align-items-center p-1 mt-2 r-8">
+                                    <img src="{% static 'check2.svg' %}" width="20" height="20" alt="">
+                                    <p>Reading Completed</p>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+  
+                    {% endfor %}
+                    {% if course_completed %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                          <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{ chapters.chapter_no }}" aria-expanded="false" aria-controls="collapseOne">
+                            Congratulations
+                          </button>
+                        </h2>
+                        <div id="collapseOne{{ chapters.chapter_no }}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <div>
+                                <div class="w-100 d-flex shadow-udemy align-items-center p-2 mt-2 r-8">
+                                    <p>You've completed the course,Certificate achieved !</p>
+                                </div>
+                                <a href="{% url 'download_certificate' chapter.course.id %}" class="btn-1-no-width">Download Certificate</a>
+                                <div class="btn-group w-100">
+                                    <button type="button" class="btn-1-no-width dropdown-toggle w-100 no-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Review the Course
+                                    </button>
+                                    <div class="dropdown-menu w-100 p-2">
+                                      <form action="{% url 'add_review' chapter.course.id %}" method="post">
+                                        {% csrf_token %}
+                                        <p>Select Stars</p>
+                                        <div class="d-flex mb-2">
+                                            <input type="radio" class="d-none" name="star_rating"  value="1" id="star1">
+                                            <input type="radio" class="d-none" name="star_rating"  value="2" id="star2">
+                                            <input type="radio" class="d-none" name="star_rating"  value="3" id="star3">
+                                            <input type="radio" class="d-none" name="star_rating"  value="4" id="star4">
+                                            <input type="radio" class="d-none" name="star_rating"  value="5" id="star5">
+
+
+                                            <label for="star1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="orange" class="review-star bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></label>
+                                            <label for="star2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="orange" class="review-star bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></label>
+                                            <label for="star3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="orange" class="review-star bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></label>
+                                            <label for="star4"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="orange" class="review-star bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></label>
+                                            <label for="star5"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="orange" class="review-star bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg></label>
+
+                                        </div>
+                                        <textarea class="w-100" type="text" name="review" placeholder="Enter Review"></textarea>
+                                        <button type="submit" class="btn-1-no-width ms-auto w-25">Post</button>
+                                      </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <div class="m-2 p-2 bg-light shadow-udemy">
+                    <h5>Comments</h5>
+                    
+                    {% for comment in chapter.comment_set.all %}
+                    <div class="comment-card shadow-udemy mb-2">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ comment.user.profile_pic.url }}" width="30" height="30" class="rounded-circle me-2" alt="">
+                            <p>{{ comment.user.username|title }}</p>
+                            <p class="ms-auto text-small"> {{ comment.posted_date }}</p>
+                        </div>
+                        <div>
+                            <p>{{ comment.comment }}</p>
+                            
+                            {% for r_comment in chapter.comment_set.all %}
+                            
+                                {% if r_comment.reply_comment.id == comment.id %}
+                                <div class="w-80 ms-4 shadow-udemy p-2 m-1">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ r_comment.user.profile_pic.url }}" width="30" height="30" class="rounded-circle me-2" alt="">
+                                        <p>{{ r_comment.user.username|title }}</p>
+                                        <p class="ms-auto text-small"> {{ r_comment.posted_date }}</p>
+                                    </div>
+                                    <div>
+                                    <p>{{ r_comment.comment }}</p>
+
+                                    </div>                                    
+                                    
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                                
+                            <div class="btn-group w-100">
+                                <button type="button" class="p-0 btn-1-no-width dropdown-toggle w-25  ms-auto no-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Reply
+                                </button>
+                                <div class="dropdown-menu w-100 p-2">
+                                <form action="{% url 'reply_comment' chapter.id comment.id %}" method="post">
+                                    {% csrf_token %}
+                                    <input class="w-100" type="text" name="comment" placeholder="Enter reply">
+                                    <button type="submit" class="p-0 btn-1-no-width ms-auto w-25">Post</button>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                        
+                    <div class="btn-group w-100">
+                        <button type="button" class="btn-1-no-width dropdown-toggle w-100 no-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          Add Comment
+                        </button>
+                        <div class="dropdown-menu w-100 p-2">
+                          <form action="{% url 'add_comment' chapter.id %}" method="post">
+                            {% csrf_token %}
+                            <input class="w-100" type="text" name="comment" placeholder="Enter comment">
+                            <button type="submit" class="btn-1-no-width ms-auto w-25">Post</button>
+                          </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+   </section>
+
+{% endblock child %}
+
+    

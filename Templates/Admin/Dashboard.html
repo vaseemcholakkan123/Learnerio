@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+    
+    {% include 'Admin-Navbar.html' %}
+    
+
+    <section id="admin-section" class="container d-block" >
+        <div class="admin-profile-banner">
+            <div class="text-center">
+                <img class="show2" src="{% static 'user.png' %}" class="profile-pic-admin-dashboard" width="100" height="100" alt="">
+                <h3>{{ user.username }}</h3>
+                <p class="text-app-orange">Admin @Learner.io</p>
+            </div>
+        </div>
+
+        <div class="bg-light admin-section-row">
+
+            <div class="row gy-3 gx-0">
+
+                <div class="col-lg-4 col-md-6 flex-center">
+                    <div class="admin-card d-flex" onclick="location.href='/admin/view-orders'">
+                        <div>
+                            <h3 class="inline">₹ {{ bill_amount }}/</h3><p class="inline">This month</p>
+                            <p>View order history and Revenue</p>
+                        </div>
+                        <img class="show2" src="{% static 'receipt.png' %}" width="100" height="100" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 flex-center">
+                    <div class="admin-card d-flex" onclick="location.href='/admin/users'">
+                        <div>
+                            <h3>Users</h3>
+                            <p>Manage Your users Here</p>
+                        </div>
+                        <img class="show2" src="{% static 'user(1).png' %}" width="100" height="100" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 flex-center">
+                    <div class="admin-card d-flex" onclick="location.href='/admin/courses'">
+                        <div>
+                            <h3>Courses</h3>
+                            <p>View or remove course from database</p>
+                        </div>
+                        <img class="show2" src="{% static 'book.png' %}" width="100" height="100" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 flex-center"  data-bs-toggle="modal" data-bs-target="#category-modal">
+                    <div class="admin-card d-flex">
+                        <div>
+                            <h3>Category</h3>
+                            <p>Add Categories to platform's category</p>
+                        </div>
+                        <img class="show2" src="{% static 'send-check.svg' %}" width="100" height="100" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 flex-center">
+                    <div class="admin-card d-flex" onclick="location.href='/admin/requests'">
+                        <div>
+                            <h3>Requests</h3>
+                            <p>View and manage tutor requests</p>
+                        </div>
+                        <img class="show2" src="{% static 'computer.png' %}" width="100" height="100" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 flex-center">
+                    <div class="admin-card d-flex" onclick="location.href='/admin/remove-admin/{{ user.id }}'">
+                        <div>
+                            <h3>Previlage</h3>
+                            <p>Remove Admin Previlage</p>
+                        </div>
+                        <img class="show2" src="{% static 'delete.png' %}" width="100" height="100" alt="">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <div class="modal" tabindex="-1" id="category-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Add new Skill</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'add_category' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p>Enter Category </p>
+                    <input class="ms-2" type="text" required placeholder="eg:-web developer" name="category">
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" type="submit">Add Category</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+{% endblock child %}
+    

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+{% include 'User-Navbar.html' %}    
+
+<section class="container">
+    </div>
+    <div class="row login-row create-row">
+        <div class="col-12 col-md-6 form-div">
+            
+            <div class="col-10">
+                
+                {% if form.errors %}
+                <div class="alert alert-danger p-2">
+                    {% for fname,errors in form.errors.items %}
+                        {% for err in errors %}
+                        <p class="small">{{ err }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="offset-alert mb-2"></div>
+                {% endif %}
+
+                <form method="post" class="container">
+                    {% csrf_token %}
+                    <div class="d-flex center">
+                        <div>
+                            <p class="login-label"><img class="mb-2" src="{% static 'user.png' %}" alt="" width="40" height="40"> Username</p>
+                            {{ form.username }}
+                        </div>
+                        <div>
+                            <p class="login-label"><img class="mb-2" src="{% static 'email.png' %}" alt="" width="40" height="40"> Email</p>
+                             {{ form.email }}
+                        </div>
+                    </div>
+                    <div class="d-flex center mt-2">
+                        <div>
+                            <p class="login-label"><img class="mb-2" src="{% static 'secure.png' %}" alt="" width="40" height="40"> Password</p>
+                            {{ form.password1 }}
+                        </div>
+                        <div>
+                            <p class="login-label"><img class="mb-2" src="{% static 'secure.png' %}" alt="" width="40" height="40"> Confirm</p>
+                            {{ form.password2 }}
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex center">
+                        <button class="btn-1 btn-90 col-12 mt-3" type="submit">Send Verification</button>
+                    </div>
+                    
+                </form>
+                <p class="redirect_p pt-2 text-center">Already Have an account , <a href="{% url 'login' %}">Login Now</a></p>
+            </div>
+        </div>
+        <div class="col-0 col-md-6 image-div" ></div>
+    </div>
+
+</section>
+
+
+{% endblock child %}
+    

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+    {% include 'User-Navbar.html' %}    
+
+    <section class="tutor-form-section container">
+        <section class="container bg-light shadow">
+            <form method="post" class="tutor-form">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ms-auto me-auto col-5 mt-4   input">
+                            <p class="form-label m-0"><img class="mb-1" src="{% static 'diploma.png' %}" alt="" width="40" height="40"> Qualification</p>
+                            {{ form.qualification }}  
+                        </div>  
+                    </div>
+
+                    <div class="col-12">
+                        <div class="ms-auto me-auto col-5 mt-2">
+                            <p class="form-label m-0"><img class="mb-1" src="{% static 'id-card.png' %}" alt="" width="40" height="40"> Skills</p>
+                            <div id="skill-selector">
+                                <p>select skill <img src="{% static 'caret-down.png' %}" alt="" width="20" height="20"></p>
+                            </div>
+                            <div id="list" class="d-none">
+                                {{ form.skills }}
+                                <button class="btn-1 mt-2 p-0"  data-bs-toggle="modal" data-bs-target="#skill-modal">Add Skill</button>
+                            </div>
+                        </div>  
+                    </div>
+
+                    <div class="col-12">
+                        <div class="ms-auto me-auto col-5 mt-2 input">
+                            <p class="form-label m-0"><img class="mb-1" src="{% static 'id-card.png' %}" alt="" width="40" height="40"> Mobile No.</p>
+                            {{ form.mobile }} 
+                        </div>  
+                    </div>
+
+                </div>  
+
+                
+
+                <button class="btn-1-no-width col-8 ms-auto me-auto mt-4 mb-4">{% if update %} Update {% else %} Send Request {% endif %}</button>
+            </form>
+
+            <div class="modal" tabindex="-1" id="skill-modal">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Add new Skill</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{% url 'add_skill' %}" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <p>Select related category </p>
+                            <select class="m-2" name="category" id="">
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <input class="ms-2" type="text" required placeholder="eg:-web developer" name="skill">
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary" type="submit">Add Skill</button>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+        </section>
+
+        
+    </section>
+
+
+
+    <script>
+
+        document.getElementById('skill-selector').addEventListener('click',()=>{
+            document.getElementById('list').classList.toggle('d-none')
+        })
+
+    </script>
+
+
+{% endblock child %}
+    

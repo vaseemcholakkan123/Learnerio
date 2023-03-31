@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+    {% include 'User-Navbar.html' %}    
+
+    <section class="tutor-form-section container">
+        <section class="container bg-light shadow post-course-section">
+            <form method="post" class="tutor-form post-course-form" enctype="multipart/form-data">
+                {% csrf_token %}
+
+
+                <div id="carouselExampleFade" class="carousel slide carousel-fade">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+
+                            <div class="row">
+                                
+                                {% if form.errors %}
+                                    
+                                    {% for errors in form.errors %}
+                                        <div class="alert alert-danger mt-3 m-auto w-75" role="alert">
+                                            <p><b>Error in field : {{ errors }}</b></p>
+                                        </div>
+                                    {% endfor %}
+                                        
+                                {% endif %}
+                                    
+
+                            <div class="col-6 {% if form.errors %} mt-1 {% else %} mt-4 {% endif %}">
+                                <div class="ms-auto left">
+                                    <p class="form-label m-0"><img class="mb-1" src="{% static 'signature.png' %}" alt="" width="40" height="40"> Title</p>
+                                    {{ form.title }}  
+                                </div>
+                            </div>
+        
+                            <div class="col-6 {% if form.errors %} mt-1 {% else %} mt-4 {% endif %}">
+        
+                                <p class="form-label m-0"><img class="mb-1" src="{% static 'customer-review.png' %}" alt="" width="40" height="40"> Related Topics</p>
+                                <div id="skill-selector" class="width-200">
+                                    <p class="ms-2">select topics <img src="{% static 'caret-down.png' %}" alt="" width="20" height="20"></p>
+                                </div>
+                                <div id="list" class="d-none">
+                                    {{ form.skills_offering }}
+                                    <button class="btn-1 mt-2 p-0"  data-bs-toggle="modal" data-bs-target="#skill-modal">Add Skill</button>
+                                </div>
+        
+                            </div>
+
+                            <div class="col-12 mt-1">
+                                <div class="col-12 width-80 extra-rem">
+                                    <p class="form-label m-0"><img class="mb-1" src="{% static 'id-card.png' %}" alt="" width="40" height="40"> Category</p>
+                                    {{ form.category }} 
+                                </div>
+                            </div>
+        
+                            <div class="col-6 mt-1">
+                                <div class="left ms-auto level">
+                                    <p class="form-label m-0"><img class="mb-1" src="{% static 'id-card.png' %}" alt="" width="40" height="40"> Duration</p>
+                                    {{ form.duration }} 
+                                </div>
+                            </div>
+        
+                            <div class="col-6 mt-1">
+        
+                                <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> Image</p>
+                                {{ form.image }} 
+        
+                            </div>
+        
+                            <div class="col-12 text-area mt-1">
+                                <div class="col-12 ms-5">
+                                    <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> Description</p>
+                                    {{ form.description }} 
+                                </div>
+                            </div>
+
+                            <div class="col-6 mt-1">
+                                <div class="ms-auto left level">
+                                    <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> Level</p>
+                                    {{ form.level }} 
+                                </div>
+                            </div>
+        
+                            <div class="col-6 mt-1">
+                                <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> Price</p>
+                                {{ form.price }} 
+                            </div>
+
+                        </div>
+                      </div>
+                      <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-6 mt-5">
+                                <div class="ms-auto left level">
+                                    <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40">Chapter count</p>
+                                    {{ form.chapters }} 
+                                </div>
+                            </div>{{ form.errors }}
+        
+                            <div class="col-6 mt-5 width-200">
+                                <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> Preview Video</p>
+                                {{ form.preview }} 
+                            
+                            </div>
+        
+                            <div class="col-12 text-area mt-1">
+                                <div class="col-10 ms-auto">
+                                    <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> Overview</p>
+                                    {{ form.overview }} 
+                                </div>
+                            </div>
+
+                        </div>
+                      </div>
+                      <div class="carousel-item d-flex flex-coloumn justify-content-center align-items-center p-3" id="learns-div">
+                        <h3 class="align-self-start mb-3">What Students will Learn</h3>
+                        <input  required id="learn-input" class="input-2 mt-1" type="text" name="learns" placeholder="Eg :- Learn to use HTML">
+                        <input  required class="input-2 mt-1" type="text" name="learns" placeholder="Eg :- Style your website with CSS">
+                        <input  required class="input-2 mt-1" type="text" name="learns" placeholder="Eg :- Learn to use Django function based views">
+                        <input  required class="input-2 mt-1" type="text" name="learns" placeholder="Eg :- Use Django Models to interact with SQL backend databases">
+                        <button class="btn-1-no-width" id="learn-btn" onclick="addfield_learn()">Add another<b>+</b></button>
+                      </div>
+
+                      <div class="carousel-item d-flex flex-coloumn justify-content-center align-items-center p-3" id="requirements-div">
+                        <h3 class="align-self-start mb-3">Requirements for the Courses</h3>
+                        <input required id="req-input" type="text" class="input-2 mt-1 m-auto" name="requirements" placeholder="Eg :- No programming experience needed!">
+                        <input required type="text" class="input-2 mt-1 m-auto" name="requirements" placeholder="Eg :- Have a computer with Internet">
+                        <input required type="text" class="input-2 mt-1 m-auto" name="requirements" placeholder="Eg :- No paid software required">
+                        <input required type="text" class="input-2 mt-1 m-auto" name="requirements" placeholder="Eg :- interact with SQL backend databases">
+                        <button class="btn-1-no-width" id="req-btn" onclick="addfield_req()">Add another<b>+</b></button>
+                      </div>
+
+                      
+                    </div>
+                    <div class="w-100 d-flex abs">
+                        <button class="btn-1-no-width" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                            Prev <b><</b>
+                        </button>
+                        <button type="submit" class="btn-1-no-width m-auto">{%if update %} Update {% else %} Post course {% endif %}</button>
+                        <button class="btn-1-no-width" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                            Next <b>></b>
+                        </button>
+                    </div>
+
+                  </div>
+
+            </form>
+
+            <div class="modal" tabindex="-1" id="skill-modal">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Add new Skill</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{% url 'add_skill' %}" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <p>Select related category </p>
+                            <select class="m-2" name="category" id="">
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <input class="m-2" type="text" required placeholder="eg:-web developer" name="skill">
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-primary p-2" type="submit">Add Skill</button>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+        </section>
+
+        
+    </section>
+
+
+
+    <script>
+        i = 0
+        function addfield_req(){
+            i += 1
+            req_btn = document.getElementById('req-btn')
+            if (i < 3) {
+            parent = document.getElementById('requirements-div');
+            req_input = document.getElementById('req-input');
+            input_clone = req_input.cloneNode(true);
+            parent.insertBefore(input_clone,req_btn);
+            }
+            else req_btn.style.display = 'none'
+        }
+        k = 0
+        function addfield_learn(){
+            k += 1
+            if (k < 3) {
+            parent = document.getElementById('learns-div');
+            learn_input = document.getElementById('learn-input');
+            learn_btn = document.getElementById('learn-btn')
+            input_clone = learn_input.cloneNode(true);
+            parent.insertBefore(input_clone,learn_btn);
+            }
+            else req_btn.style.display = 'none'
+
+        }
+
+        document.getElementById('skill-selector').addEventListener('click',()=>{
+            document.getElementById('list').classList.toggle('d-none')
+        })
+
+    </script>
+
+
+{% endblock child %}
+    

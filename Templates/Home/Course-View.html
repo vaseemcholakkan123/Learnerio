@@ -1,0 +1,265 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filters %}
+
+{% block child %}
+{% include 'User-Navbar.html' %}
+
+
+<section class="course-detail">
+    <section>
+        <div class="row">
+        
+            <div class="col-12 banner p-5 bg-light">
+                <div class="d-flex">
+                    <img src="{{ course.owner.user_id.profile_pic.url }}" class="rounded-circle" style="border: white 2px solid;" alt="" width="60" height="60">
+                    <div class="ms-2">
+                        <p class="banner-text">{{ course.owner.user_id.first_name }} {{course.owner.user_id.last_name }}</p>
+                        <p class="banner-text">Instructor</p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="col-lg-4 col-md-8 col-12 mb-2">
+                        <h1>{{ course.title }}</h1>
+                        <p class="text-description"> {{ course.description }}</b></p>
+                    </div>
+                    <div class="row col-lg-6 col-12">
+                        <div class="col-sm-3 col-6 d-flex align-items-center">
+                            <img src="{% static 'stack.svg' %}" width="30" height="30" alt="">
+                            <p class="ms-2 text-small"><b>{{ course.chapters }} chapters</b></p>
+                        </div>
+                        <div class="col-sm-3 col-6 d-flex align-items-center">
+                            <img src="{% static 'person-lines-fill.svg' %}" width="30" height="30" alt="">
+                            <p class="ms-2 text-small"><b>{{ course.students_enrolled }} Students</b></p>
+                        </div>
+                        <div class="col-sm-3 col-6 d-flex align-items-center">
+                            <img src="{% static 'calendar-date-fill.svg' %}" width="30" height="30" alt="">
+                            <p class="ms-2 text-small"><b>{{ course.duration }} month</b></p>
+                        </div>
+                        <div class="col-sm-3 col-6 d-flex align-items-center">
+                            <img src="{% static 'star-fill.svg' %}" width="30" height="30" alt="">
+                            <p class="ms-2 text-small"><b>{{ course.rating }} rating</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3  col-12 container course-detail-card">
+                <div class="mb-3 bg-light shadow-udemy">
+                    <video autoplay src="{{ course.preview.url }}" class="course-video mt-2" controls></video>
+                        
+                    
+                    {% if user_enrolled %}
+                    {% for chapter in course.course_chapters.all  %}
+                    {% if chapter.chapter_no == 1 %}
+                    <a href="{% url 'continue_reading' chapter.id %}" class="btn-1-no-width text-small align-end">Continue Reading</a>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% else %}
+                    <h4 class="m-2">Get this course : ₹ {{ course.price }}</h4>
+
+                    <a href="{% url 'add_to_cart' course.id %}" class="btn-1-no-width col-12">Add to Cart</a>
+                    <a href="{% url 'add_to_wishlist' course.id %}" class="btn-1-no-width col-12">Add to wishllist</a>
+                        
+                    {% endif %}
+                        
+                    <p class="text-center text-small mt-2 pb-2">Life Time Access</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row p-5 gy-4">
+
+            <div class="col-lg-7 col-12 p-2 shadow-udemy bg-light">
+                <h3 class="bold-extra">Course overview :</h3>
+                <p class="p-2 ms-2">{{ course.overview }}</p>
+            </div>
+
+            <div class="col-lg-7 col-12 p-2 shadow-udemy bg-light">
+                <h3 class="bold-extra">What You'll Learn</h3>
+                <div class="row">
+                    
+                    {% for learns in course.whats_learning|comma_filter %}
+                    <div class="col-lg-6 col-12">
+                        {% if learns != '' %}
+                        <div class="d-flex m-2">
+                            <img src="{% static 'check2.svg' %}" width="20" height="20" alt="">
+                            <p class="ms-2">{{ learns }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                        
+                </div>
+            </div>
+
+            <div class="col-lg-7 col-12 p-2 shadow-udemy bg-light">
+                <h3 class="bold-extra">What You'll Need</h3>
+                <div class="row">
+                    
+                    {% for reqs in course.requirements|comma_filter %}
+                    <div class="col-lg-6 col-12">
+                        {% if reqs != '' %}
+                        <div class="d-flex m-2">
+                            <img src="{% static 'check2.svg' %}" width="20" height="20" alt="">
+                            <p class="ms-2">{{ reqs }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                        
+                </div>
+            </div>
+
+            <div class="col-lg-7 col-12">
+                <h3 class="bold-extra">This course includes :</h3>
+                <div class="p-2">
+                    <p class="mt-1 ms-2"><img src="{% static 'play-btn-fill.svg' %}" width="25" height="25" alt="">&nbsp;&nbsp; {{ course.chapters }} on-demand videos</p>
+                    <p class="mt-1 ms-2"><img src="{% static 'phone.svg' %}" width="25" height="25" alt="">&nbsp;&nbsp; Access on mobile and tv</p>
+                    <p class="mt-1 ms-2"><img src="{% static 'trophy.svg' %}" width="25" height="25" alt="">&nbsp;&nbsp; Certificate on completion</p>
+                </div>
+            </div>
+
+            <div class="col-lg-7 col-12">
+                <h3 class="bold-extra">Chapters in this course : </h3>
+                <div class="accordion m-2 mt-3" id="accordionExample">
+                    
+                    {% for chapter in course.course_chapters.all %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{ chapter.chapter_no }}" aria-expanded="false" aria-controls="collapseOne">
+                            Chapter #{{ chapter.chapter_no }} &nbsp; <b> : </b> &nbsp;<p class="show2 p-1"> {{ chapter.title }}</p>
+                          </button>
+                        </h2>
+                        <div id="collapseOne{{ chapter.chapter_no }}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                          <div class="accordion-body">
+                            <div class="d-flex">
+                                <p class="mt-1 mb-2"><img src="{% static 'play-btn-fill.svg' %}" width="25" height="25" alt="">&nbsp;&nbsp;  {{ chapter.video }}</p>
+                                <a class="ms-auto">purchase to watch</a>
+                            </div>
+                            <p>{{ chapter.description }}</p>
+                          </div>
+                        </div>
+                      </div>
+  
+                    {% endfor %}
+                        
+                </div>
+            </div>
+
+            {% if course.owner.tutor_course.all %}
+
+            <div class="col-12 p-3 shadow-udemy bg-light">
+                <h3 class="bold-extra mb-3">More courses by <span class="text-primary"> {{ course.owner|title }}</span></h3>
+                <div class="row">
+                    
+                    
+                    {% for courses in course.owner.tutor_course.all %}
+      
+                    {% if courses.id != course.id %}
+
+                    <div class="col-6 col-md-4 flex-center more-course">
+                        <div class="course-card shadow-udemy bg-light" onclick="location.href='/course-details/{{ courses.id }}'">
+                          <div class="course-img">
+                            <img src="{{ courses.image.url }}" alt="">
+                          </div>
+            
+                            <div class="p-3 pb-3">
+                              <div>
+                                <h3 class="course-title">{{ courses.title }}</h3>
+                              </div>
+                  
+                              <div class="d-flex pt-2">
+                                
+                                <div class="align-end">
+                                  <p class="align-end text-small"><b>Price : </b>${{ courses.price }}</p>
+                                  <p class="align-end text-small"><img src="{% static 'star.png' %}" width="20" height="20" class="mb-1" alt=""> 4 rating</p>
+                                </div>
+            
+                                  <div class="ms-auto">
+                          
+                                      
+                                    
+                                  </div>  
+                            </div>
+            
+                          </div>
+                        </div>
+            
+                      </div>
+
+                      {% endif %}
+
+                    {% endfor %}
+
+
+                        
+                </div>
+            </div>
+
+            {% endif %}
+
+
+            {% if course.review_set.all %}
+            <div class="col-12 p-3 shadow-udemy bg-light">
+                <h3 class="bold-extra mb-3"><span class="text-primary">Featured</span> Reviews</h3>
+                <div class="row">
+
+                    
+                    {% for review in course.review_set.all %}
+                    {% if forloop.counter <= 4%}
+                    <div class="col-4 flex-center more-course">
+            
+                            <div class="p-3 pb-3 shadow-udemy">
+                                <div class="d-flex">
+                                    <img class="rounded-circle me-2" src="{{ review.user.profile_pic.url }}" width="60" height="60" alt="">
+                                    <div class="m-minus3">
+                                        <h5 class="m-0">{{ review.user.username }}</h5>
+                                        <p class="text-small m-minus3" id="rating"></p> 
+                                        <p class="text-small ml-plus-3">{% if review.posted_date|date_filter == 0 %} Today {% else %} {{ review.posted_date|date_filter }} days ago. {% endif %}</p>
+                                    </div>
+                                    
+                                    <script>
+                                        let rating = document.querySelector('#rating')
+                                        
+                                        for (let i = 0; i < 5; i++) {
+                                            if(i < {{ review.rating }}){
+                                                rating.insertAdjacentHTML('beforeend', '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gold" class="bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>')
+                                            }else {
+                                                rating.insertAdjacentHTML('beforeend', '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#cecece" class="bi bi-star-fill" viewBox="0 0 16 16"> <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>')
+                                            }
+                                        }
+                                        
+                                    </script>
+
+                                </div>
+                                <p class="text-small mt-2">{{ review.review_text }}</p>
+                  
+                            </div>
+            
+            
+                    </div>
+                     {% endif %}
+
+                    {% endfor %}
+
+                        
+                </div>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+
+    </section>
+
+</section>
+
+{% include 'Footer.html' %}
+
+{% endblock child %}

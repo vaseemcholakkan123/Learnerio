@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+{% include 'Admin-Navbar.html' %}    
+
+<section class="container">
+    </div>
+    <div class="row login-row">
+        <div class="col-12 col-md-6 form-div">
+            <div class="col-6">
+                <form method="post" class="container">
+                    {% csrf_token %}
+                    <p class="login-label"><img class="mb-2" src="{% static 'user.png' %}" alt="" width="40" height="40"> Username</p>
+                    {{ form.username }}
+                    <p class="login-label"><img class="mb-2" src="{% static 'secure.png' %}" alt="" width="40" height="40"> Password</p>
+                    {{ form.password }}
+                    <button class="btn-1 col-12" type="submit">Login</button>
+                    
+                </form>
+                
+                {% if form.errors %}
+                <p class="redirect_p pt-2 me-3 text-danger text-center">Wrong Password / No such User</p>
+                {% endif %}
+                    
+            </div>
+        </div>
+        <div class="col-12 col-md-6 image-div" ></div>
+    </div>
+
+</section>
+
+
+{% endblock child %}
+    

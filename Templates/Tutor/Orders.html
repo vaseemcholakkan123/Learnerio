@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+{% include 'User-Navbar.html' %}    
+
+<section>
+
+    <section class="container admin-users-view view-section shadow">
+        <div class="d-flex header">
+            <h2 class="inline">Orders</h2>
+            <div class="d-flex search ms-auto me-2">
+               <a href="{% url 'download_report_tutor' tutor_id %}" class="btn-1-no-width bg-primary">Download Report</a>
+            </div>
+        </div>
+        <div class="row gy-3 d-flex center overflow-auto view-row">
+            
+            {% for order in orders %}
+            <div class="col-md-5 d-flex primary-view">
+                
+                <img src="{{ order.user.profile_pic.url }}" class="rounded-circle" width="100" height="100" alt="" srcset="">
+
+                    
+                <div class="ms-2">
+                    <h3>User : {{ order.user.username }}</h3>
+                    <p>Course : {{ order.order_course }}</p> 
+                    <p>Profit : {{ order.order_course.price }}</p>
+                    <p>Order Id : {{ order.order_id }}</p>
+                </div>
+            </div>
+            {% endfor %}
+                
+        </div>
+
+    </section>
+
+</section>
+
+
+{% endblock child %}
+    

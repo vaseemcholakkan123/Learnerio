@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+    {% include 'User-Navbar.html' %}    
+
+    <section class="tutor-form-section container">
+        <section class="container bg-light shadow post-course-section">
+            <form method="post" class="tutor-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="row">
+
+                    <div class="col-6 mt-5">
+                        <div class="ms-auto left">
+                            <p class="form-label m-0"><img class="mb-1" src="{% static 'signature.png' %}" alt="" width="40" height="40"> First Name</p>
+                            {{ form.first_name }}  
+                        </div>
+                    </div>
+
+
+                    <div class="col-6 mt-5">
+                            <p class="form-label m-0"><img class="mb-1" src="{% static 'id-card.png' %}" alt="" width="40" height="40"> Last Name</p>
+                            {{ form.last_name }} 
+
+                    </div>
+
+                    <div class="col-6 mt-3">
+                        <div class="left ms-auto">
+                            <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> Username</p>
+                            {{ form.username }} 
+                        </div>
+                    </div>
+
+                    <div class="col-6 mt-3">
+                        <p for="id_profile_pic" class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> Profile Image</p>
+                        <label for="id_profile_pic" class="btn btn-secondary">Select File</label>   
+                        {{ form.profile_pic }} 
+                    </div>
+
+                    <div class="col-6 mt-3">
+                        <div class="ms-auto left me-5">
+                            <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> D-O-B</p>
+                            {{ form.date_of_birth }} 
+                        </div>
+                    </div>
+
+                    
+                    <div class="col-6 mt-3 mb-1">
+                        <p class="form-label m-0"><img class="mb-1" src="{% static 'computer.png' %}" alt="" width="40" height="40"> Email</p>
+                        {{ form.email }}
+                    </div>
+
+                </div>  
+
+                
+
+                <button type="submit" class="btn-1-no-width col-8 ms-auto me-auto mt-5">Update Profile</button>
+            </form>
+
+
+        </section>
+
+        
+    </section>
+
+
+
+{% endblock child %}
+    

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+    {% include 'User-Navbar.html' %}    
+
+    <section class="tutor-form-section container">
+        <section class="container bg-light shadow post-course-section">
+                
+                <div class="row h-100 justify-content-center">
+
+
+                    <div id="carouselExampleFade" class="carousel slide carousel-fade row">
+                        <div class="carousel-inner">
+                          <div class="carousel-item active d-flex h-100 justify-content-center">
+                            {% if form.errors %}
+                                    
+                                    {% for errors in form.errors %}
+                                        <div class="alert alert-danger mt-3 m-auto w-75" role="alert">
+                                            <p><b>Error in field : {{ errors }}</b></p>
+                                        </div>
+                                    {% endfor %}
+                                        
+                            {% endif %}
+                            <div class="self-center">
+                                <h1>Lets add chapters</h1>
+                            <p>Your course is created,now add chapters to it.</p>
+                            </div>
+                          </div>
+                            <form method="post" class="tutor-form" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form_set.management_form }}
+                          {% for form in form_set %}
+                          <div class="carousel-item">
+                                
+                                <div class="row">
+
+                                    <div class="col-12 mt-1 chapter-title">
+                                        <p class="form-label m-0"><img class="mb-1" src="{% static 'book.png' %}" alt="" width="50" height="50">Chapter Title</p>
+                                        {{ form.title }} 
+                                        {{ form.id }}
+                                    </div>
+
+                                    <div class="col-4 mt-1">
+                                        <p class="form-label m-0"><img class="mb-1" src="{% static '123.svg' %}" alt="" width="30" height="30"> Chapter No.</p>
+                                        {{ form.chapter_no }} 
+                                    
+                                    </div>
+                
+                                    <div class="col-6 mt-1">
+                                            <p class="form-label m-0"><img class="mb-1" src="{% static 'camera-video.svg' %}" alt="" width="30" height="30"> Upload Video</p>
+                                            {{ form.video }} 
+                                    </div>
+                
+                                    <div class="col-12 mt-1 chapter-desc">
+                                        <p class="form-label m-0"><img class="mb-1" src="{% static 'card-text.svg' %}" alt="" width="30" height="30"> Description</p>
+                                        {{ form.description }} 
+
+                                    </div>
+                                    
+                                    {% if forloop.last %}
+                                    <button type="submit" class="btn-1-no-width submit col-7 m-auto">Create Post</button>
+                                    {% endif %}
+                                
+                                </div>
+
+                            
+
+
+                          </div>
+                          {% endfor %}
+                            </form>
+                        </div>
+                        
+                        <div class="d-flex align-self-end mb-3 nextPrev">
+                            <button class="btn-1-no-width" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                                <b><</b> Prev
+                            </button>
+    
+                            <button class="btn-1-no-width ms-auto" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                                Next <b></b>></b>
+                            </button>
+                        </div>
+
+                      </div>
+
+                </div>  
+
+        </section>
+
+        
+    </section>
+
+
+{% endblock child %}
+    

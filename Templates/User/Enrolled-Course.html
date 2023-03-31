@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block child %}
+{% include 'User-Navbar.html' %}    
+
+<section class="container">
+
+    <section class="container admin-users-view view-section shadow">
+        <div class="d-flex header">
+            <h2 class="inline">Purchased Courses</h2>
+        </div>
+        <div class="row gy-3 d-flex center overflow-auto view-row">
+            
+            {% for enrolled in enrolled_courses %}
+            <div class="col-md-12 d-flex primary-view">
+                
+
+                <img src="{{ enrolled.course.image.url }}" width="150" height="100" alt="" srcset="">
+
+                    
+                <div class="ms-2">
+                    <h3>{{ enrolled.course.title }}</h3>
+                    <p>Tutor : {{ enrolled.course.owner.user_id.username }}</p>
+                    <p>Duration : {{ enrolled.course.duration }} {% if enrolled.course.duration == 1 %} Month {% else %} Months {% endif %}</p>
+                </div>
+                <div class="ms-auto me-2 d-flex btn-flex">
+                    {% for chapter in enrolled.course.course_chapters.all  %}
+                    {% if chapter.chapter_no == 1 %}
+                    <a href="{% url 'continue_reading' chapter.id %}" class="btn-1-no-width text-small align-end">Continue Reading</a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+                
+        </div>
+
+    </section>
+
+</section>
+
+
+{% endblock child %}
+    
