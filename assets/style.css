@@ -891,7 +891,7 @@ input:focus{
          flex-direction: column !important;
      }
 
-     .make-coloumn {
-         flex-direction: column !important;
+     .cart-card {
+         background-color: #8e3a52;
      }
  }
