@@ -336,14 +336,7 @@ input:focus{
     width: 80%;
     margin-top: 85px;
 }
-@media (max-width:608px) {
-    .go-flex{
-        flex-direction: column !important;
-    }
-    .make-coloumn{
-        flex-direction: column !important;
-    }
-}
+
 
 @media (max-width:1000px){
     .cart-section .child-section {
@@ -637,6 +630,7 @@ input:focus{
     
 }
 @media (max-width:500px) {
+
     .pro-fixer{
         width: 100%;
         margin-left: 1.2rem;
@@ -891,3 +885,13 @@ input:focus{
         max-height: 139px !important;
     }
 }
+
+ @media (max-width:608px) {
+     .go-flex {
+         flex-direction: column !important;
+     }
+
+     .make-coloumn {
+         flex-direction: column !important;
+     }
+ }
