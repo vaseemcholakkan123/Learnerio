@@ -178,7 +178,6 @@
 
     $('.filter-cat').change(function() {
         // Get the current filter values
-       
 
         var category = $(this).val();
 
@@ -241,8 +240,7 @@
         // Get the current filter values
        
 
-        var val = $(this).val();
-
+        var val = $(this).val();;
         // Make an AJAX request to the get_courses view
         $.ajax({
             type: "GET",
@@ -256,7 +254,6 @@
 
               var row = $('.course-row'); 
               $('.course-row').empty();
-
               $.each(courses, function(index, course) {
                     var courseCard = $('<div>').addClass('col-md-6 col-lg-4 flex-center').html(
                       '<div class="course-card shadow-orange bg-white"'+ 'onclick="location.href='+"'/course-details/"+ course.id + "'" + '" >' +
@@ -282,7 +279,6 @@
                       '</div>' +
                       '<div class="d-flex pt-2">' +
                       '<p class="text-small"><b>Price : </b>₹ ' + course.price + '</p>' +
-                      '<p class="ms-auto text-small m-minus3" id="rating"> text-cartminus3" id="r/p>' +
                       '</div>' +
                       '<p class="text-small">Updated on : ' + course.updated_date + '</p>' +
                       '</div>' +
@@ -300,7 +296,7 @@
 
     $('.filter-by-level').change(function() {
         // Get the current filter values
-       
+       console.log('leveeeeelll');
 
         var val = $(this).val();
 
@@ -343,7 +339,6 @@
                       '</div>' +
                       '<div class="d-flex pt-2">' +
                       '<p class="text-small"><b>Price : </b>₹ ' + course.price + '</p>' +
-                      '<p class="ms-auto text-small m-minus3" id="rating"> text-cartminus3" id="r/p>' +
                       '</div>' +
                       '<p class="text-small">Updated on : ' + course.updated_date + '</p>' +
                       '</div>' +

@@ -336,6 +336,11 @@ input:focus{
     width: 80%;
     margin-top: 85px;
 }
+@media (max-width:668px) {
+    .go-flex{
+        flex-direction: column;
+    }
+}
 
 @media (max-width:1000px){
     .cart-section .child-section {
