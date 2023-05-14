@@ -892,6 +892,6 @@ input:focus{
      }
 
     .cart-card {
-        background-color: #8e3a52;
+        background-color: rgba(105, 208, 21, 0.133);
     }
  }
