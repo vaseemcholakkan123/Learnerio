@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-tt4q)_2nl@o$)d$ojx7(4@dorie*ynu1gho^^&4s41^=msd9rm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['moddroid.tk']
 
 
 # Application definition
