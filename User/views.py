@@ -168,7 +168,7 @@ class DeleteWishlistItem(DeleteView):
 # cart views
 
 class CartView(TemplateView):
-    template_name = 'User/cart.html'
+    template_name = 'User/Cart.html'
 
     def get(self, request, *args, **kwargs):
         try:
