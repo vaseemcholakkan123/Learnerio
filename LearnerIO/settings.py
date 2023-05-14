@@ -84,11 +84,19 @@ WSGI_APPLICATION = 'LearnerIO.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'LearnerIO',
-        'USER':'Vaseem',
+        'NAME': 'learnerio',
+        'USER':'postgres',
         'HOST':'localhost',
         'PASSWORD':'1234',
     }
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'LearnerIO',
+    #     'USER':'Vaseem',
+    #     'HOST':'localhost',
+    #     'PASSWORD':'1234',
+    # }
 }
 
 
