@@ -338,7 +338,10 @@ input:focus{
 }
 @media (max-width:608px) {
     .go-flex{
-        flex-direction: column  !important;
+        flex-direction: column !important;
+    }
+    .make-coloumn{
+        flex-direction: column !important;
     }
 }
 
