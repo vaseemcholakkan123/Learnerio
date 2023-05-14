@@ -1,6 +1,8 @@
 from django.contrib.auth.views import *
 from django.views.generic import *
-from django.forms import ModelForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .forms import UserCreationForm,UserUpdateForm
 from .models import *
 from Tutor.models import * 
@@ -45,7 +47,7 @@ class VerifyEmail(TemplateView):
     template_name = 'User/Verify-Email.html'
     extra_context = {'title':'Verify Email'}
 
-class EditProfile(UpdateView):
+class EditProfile(UpdateView,LoginRequiredMixin):
     model = User
     success_url = '/user/dashboard'
     form_class = UserUpdateForm
@@ -57,7 +59,7 @@ def delete_user(request):
     logout(request)
     return redirect('/user/login')
     
-class ChangePassword(PasswordChangeView):
+class ChangePassword(PasswordChangeView,LoginRequiredMixin):
     success_url = '/user/dashboard'
     template_name = 'User/Password-Change.html'
     
@@ -80,12 +82,12 @@ def request_unblock(request):
     return redirect('/user/login')
 
 
-class UserDashboard(TemplateView):
+class UserDashboard(TemplateView,LoginRequiredMixin):
     extra_context = {'title':'User Dashboard'}
     template_name = 'User/Dashboard.html'
 
     
-class BecomeTutor(CreateView):
+class BecomeTutor(CreateView,LoginRequiredMixin):
     model = Tutor
     form_class = BecomeTutor
     success_url = '/'
@@ -105,7 +107,7 @@ class BecomeTutor(CreateView):
     
 # Wishlist views
 
-class WishlistView(TemplateView):
+class WishlistView(TemplateView,LoginRequiredMixin):
     template_name = 'User/Wishlist.html'
 
     def get(self, request, *args, **kwargs):
@@ -113,6 +115,7 @@ class WishlistView(TemplateView):
         self.extra_context = {'wishlist':wishlist,'title':'WishList'}
         return super().get(request, *args, **kwargs)
 
+@login_required
 def ItemToWishlist(request,course):
 
     courseObj = Course.objects.get(id=course)
@@ -168,7 +171,6 @@ class CartView(TemplateView):
     template_name = 'User/cart.html'
 
     def get(self, request, *args, **kwargs):
-
         try:
             cart = Cart.objects.filter(user_id=request.user.id)
         except:
@@ -241,6 +243,7 @@ def razorpay_payment_handler(request):
            
         return redirect('/user/dashboard')
 
+@login_required
 def ItemToCart(request,course):
     courseObj = Course.objects.get(id=course)
     Cart.objects.create(user_id=request.user,course_id=courseObj).save()
@@ -255,7 +258,8 @@ class DeleteCartItem(DeleteView):
         return self.post(request, *args, **kwargs)
     
 
-class EnrolledCourseView(ListView):
+class EnrolledCourseView(ListView,LoginRequiredMixin):
+    login_url = '/user/login/'
     extra_context = {'title':'Enrolled Courses'}
     template_name = 'User/Enrolled-Course.html'
     context_object_name = 'enrolled_courses'
@@ -264,13 +268,14 @@ class EnrolledCourseView(ListView):
         queryset = EnrolledCourse.objects.filter(user=self.request.user)
         return queryset    
 
-
+@login_required
 def add_comment(request,chapter_id):
     current_chapter = Chapters.objects.get(id=chapter_id)
     current_comment = request.POST.get('comment')
     Comment.objects.create(chapter=current_chapter,user=request.user,comment=current_comment)
     return redirect(f'/user/course-reading/{chapter_id}')
 
+@login_required
 def reply_comment(request,chapter_id,comment_id):
 
     current_chapter = Chapters.objects.get(id=chapter_id)
@@ -279,6 +284,7 @@ def reply_comment(request,chapter_id,comment_id):
     Comment.objects.create(chapter=current_chapter,user=request.user,comment=current_comment,reply_comment=parent_comment)
     return redirect(f'/user/course-reading/{chapter_id}')
 
+@login_required
 def add_review(request,course_id):
     try:       
         current_course = Course.objects.get(id=course_id)
@@ -291,6 +297,7 @@ def add_review(request,course_id):
     Review.objects.create(course = current_course,user=request.user,review_text=user_review,rating=user_rating)
     return redirect(f'/course-details/{course_id}')
 
+@login_required
 def delete_review(request,review_id,course_id):
     try:
         Review.objects.get(id=review_id).delete()
@@ -309,7 +316,7 @@ def delete_review(request,review_id,course_id):
 
 #     return response
 
-
+@login_required
 def download_certificate(request,course_id):
 
     course = Course.objects.get(id=course_id)

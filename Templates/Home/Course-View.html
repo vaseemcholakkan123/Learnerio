@@ -137,7 +137,7 @@
                         <div id="collapseOne{{ chapter.chapter_no }}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                           <div class="accordion-body">
                             <div class="d-flex">
-                                <p class="mt-1 mb-2"><img src="{% static 'play-btn-fill.svg' %}" width="25" height="25" alt="">&nbsp;&nbsp;  {{ chapter.video }}</p>
+                                <p class="mt-1 mb-2"><img src="{% static 'play-btn-fill.svg' %}" width="25" height="25" alt="">&nbsp;&nbsp;  {{ chapter.video|truncatechars:9 }}</p>
                                 <a class="ms-auto">purchase to watch</a>
                             </div>
                             <p>{{ chapter.description }}</p>
@@ -150,7 +150,7 @@
                 </div>
             </div>
 
-            {% if course.owner.tutor_course.all %}
+            {% if course.owner.tutor_course.all.count > 1 %}
 
             <div class="col-12 p-3 shadow-udemy bg-light">
                 <h3 class="bold-extra mb-3">More courses by <span class="text-primary"> {{ course.owner|title }}</span></h3>
@@ -161,7 +161,7 @@
       
                     {% if courses.id != course.id %}
 
-                    <div class="col-6 col-md-4 flex-center more-course">
+                    <div class="col-12 col-md-4 flex-center more-course">
                         <div class="course-card shadow-udemy bg-light" onclick="location.href='/course-details/{{ courses.id }}'">
                           <div class="course-img">
                             <img src="{{ courses.image.url }}" alt="">
@@ -206,12 +206,12 @@
             {% if course.review_set.all %}
             <div class="col-12 p-3 shadow-udemy bg-light">
                 <h3 class="bold-extra mb-3"><span class="text-primary">Featured</span> Reviews</h3>
-                <div class="row">
+                <div class="row gy-2">
 
                     
                     {% for review in course.review_set.all %}
                     {% if forloop.counter <= 4%}
-                    <div class="col-4 flex-center more-course">
+                    <div class="col-12 col-md-4 flex-center more-course">
             
                             <div class="p-3 pb-3 shadow-udemy">
                                 <div class="d-flex">

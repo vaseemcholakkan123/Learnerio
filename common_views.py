@@ -1,26 +1,25 @@
 from Tutor.models import Course
 from django.views.generic import DetailView,ListView
-from Tutor.models import Tutor
+
 from User.models import User,EnrolledCourse
 
 
 class CourseDetails(DetailView):
+
     model = Course
     context_object_name = 'course'
 
     def get(self, request, *args, **kwargs):
-        try:
+        if request.user.is_authenticated:
             enrolled_courses = EnrolledCourse.objects.filter(user=request.user)
             current_course = Course.objects.get(id=kwargs['pk'])
-        except:
-            enrolled_course = False
 
-        if enrolled_courses:
-            for enrolled_course in enrolled_courses:
-                if current_course.title in enrolled_course.course.title:
-                    self.extra_context['user_enrolled'] = True
-                else:
-                    self.extra_context['user_enrolled'] = False
+            if enrolled_courses is not None:
+                for enrolled_course in enrolled_courses:
+                    if current_course.title in enrolled_course.course.title:
+                        self.extra_context['user_enrolled'] = True
+                    else:
+                        self.extra_context['user_enrolled'] = False
         else:
             self.extra_context['user_enrolled'] = False          
 

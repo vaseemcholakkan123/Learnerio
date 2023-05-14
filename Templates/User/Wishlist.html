@@ -27,7 +27,7 @@
                         <p class="text-small">{{ items.course_id.level }}-{{ items.course_id.chapters }} Chapters</p>
                     </div>
                 </div>
-                <div class="ms-auto me-2 d-flex btn-flex">
+                <div class="ms-auto me-2 d-flex hide12 btn-flex">
                     <a href="{% url 'add_to_cart' items.course_id.id %}" class="btn-1">To cart</a>
                     <form action="{% url 'delete_wishlist_item' items.id %}" method="post">
                         {% csrf_token %}
@@ -38,7 +38,7 @@
             {% endfor %}
 
             {% if not wishlist %}
-            <div class="col-md-12 d-flex primary-view">
+            <div class="col-md-12 d-flex h1temp primary-view">
                 <h3 class="ms-auto me-auto self-center">No Item in Wishlist</h3>
             </div>
             {% endif %}

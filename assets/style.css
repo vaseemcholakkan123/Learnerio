@@ -337,6 +337,78 @@ input:focus{
     margin-top: 85px;
 }
 
+@media (max-width:1000px){
+    .cart-section .child-section {
+            min-height: 50vh !important;
+            width: 99% !important;
+    }
+    .fix2{
+            margin-top: 1.5rem;
+            height: auto;
+            flex-direction: column;
+            row-gap: 1.5rem;
+    }
+    .imgfix > img{
+        height: 30px !important;
+        width: 30px !important;
+    }
+    .fix3{
+        height: auto !important;
+    }
+    .mfix{
+        margin-left: .5rem !important;
+    }
+    .mfix-2{
+        margin-bottom: 10px !important;
+    }
+    
+}
+.mfix-2{
+    margin-top: 3rem !important;
+}
+@media (max-width:768px) {
+    .fix4 {
+            flex-direction: column;
+            row-gap: .7rem;
+        }
+    .fixm{
+        margin-left: 0 !important;
+    }
+    .thehovfix{
+        display: none !important;
+    }
+    .fix-nav-h{
+        max-height: 80px;
+    }
+    .fix-drop{
+        background-color: transparent !important;
+        border: none;
+    }
+}
+
+
+@media (max-width:768px) {
+    .admin-users-view{
+        width: 97% !important;
+    }
+    .nav-offset{
+        width: 0 !important;
+    }
+    
+}
+@media (max-width: 579px){
+
+.h1temp {
+    height: 72px !important;
+}
+}
+
+@media (max-width: 579px){
+    .hide12{
+        display: none !important;
+    }
+}
+
 .view-row{
     margin-top: 0;
     padding: 15px 0px;
@@ -531,6 +603,58 @@ input:focus{
     border-right: 0;
     border-left: 15px solid rgb(215, 191, 191);
 }
+
+@media (max-width:1200px){
+    .pass-fix{
+        flex-direction: column;
+        margin-left: 1.2rem;
+    }
+    .pass-o-fix{
+        width: 94.666667% !important;
+        margin-left: 1.2rem !important;
+    }
+    .pass-m-fix{
+        width: 100% !important;
+    }
+}
+@media(max-width:991px){
+    .fix-profile{
+        width: 80% !important;
+    }
+}
+@media (max-width:768px) {
+    .fix-profile{
+        width: 98% !important;
+    }
+    
+}
+@media (max-width:500px) {
+    .pro-fixer{
+        width: 100%;
+        margin-left: 1.2rem;
+    }
+    .pro-fixer > .ms-auto{
+        margin-left: auto !important;
+    }
+    .pro-fixer > .left{
+        width: auto !important;
+    }
+    .pro-fixer input{
+        min-width: 80%;
+    }
+    .h-fix12{
+        height: auto !important;
+        margin: 1. 0 !important;
+    }
+    .m-fix1{
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+    }
+    .less-m-fix{
+        margin-top: 1rem !important;
+    }
+}
+
 
 .course-img:hover .onhover::before{
     content: '';
