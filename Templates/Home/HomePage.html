@@ -6,8 +6,46 @@
   {% include 'User-Navbar.html' %}
 
   <section class="home-section">
+    
 
     <section class="row me-0">
+
+
+      <div id="carouselExampleCaptions" class="carousel slide mb-3" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img height="416" src="{% static 'banner1.jpg' %}"
+              class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block bg-white" style="color: #ff8b13;font-weight: 600; border-radius: 10px;">
+              <h5>New to LearnerIO? Lucky you.</h5>
+              <p>Courses start at ₹449. Get your new-student offer before it expires.</p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/c18e88af-9da5-4745-a6e0-e7bbdde65261.png"
+              class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block bg-white" style="color: #ff8b13;font-weight: 600; border-radius: 10px;">
+              <h5>Subscribe to the best of LearnerIO</h5>
+              <p>With Personal Plan, you get access to 8,000 of our top-rated courses in tech, business, and more.</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
 
       <div class="filter_notification_section col-4 col-md-2 bg-white shadow-orange">
 
